@@ -7,6 +7,7 @@ class OwnerInline(admin.TabularInline):
     model = Flat.owned_by.through
     raw_id_fields = ['owner']
 
+
 class FlatAdmin(admin.ModelAdmin):
     search_fields = ['town', 'address', 'owner']
     readonly_fields = ['created_at']
@@ -33,10 +34,6 @@ class OwnerAdmin(admin.ModelAdmin):
         'owner_pure_phone',
     ]
     raw_id_fields = ['flats']
-
-
-
-
 
 
 admin.site.register(Flat, FlatAdmin)
