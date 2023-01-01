@@ -21,6 +21,10 @@ class ClaimAdmin(admin.ModelAdmin):
 
 
 class OwnerAdmin(admin.ModelAdmin):
+    list_display = [
+        'name',
+        'owner_pure_phone',
+    ]
     raw_id_fields = ['flats']
 
 

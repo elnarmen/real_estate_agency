@@ -5,8 +5,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Flat(models.Model):
-    owner = models.CharField('ФИО владельца', max_length=200)
-    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
+    owner = models.CharField('ФИО владельца', max_length=200, db_index=True)
+    owners_phonenumber = models.CharField('Номер владельца', max_length=20, db_index=True)
     created_at = models.DateTimeField(
         'Когда создано объявление',
         default=timezone.now,
@@ -68,24 +68,35 @@ class Flat(models.Model):
         return f'{self.town}, {self.address} ({self.price}р.)'
 
 class Owner(models.Model):
-    name = models.CharField(max_length=200, verbose_name='ФИО владельца')
-    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
+    name = models.CharField(max_length=200, verbose_name='ФИО владельца', db_index=True)
+    owners_phonenumber = models.CharField('Номер владельца', max_length=20, db_index=True)
     owner_pure_phone = PhoneNumberField(
         region='RU',
         blank=True,
         null=True,
-        verbose_name='Нормализованный номер владельца'
+        verbose_name='Нормализованный номер владельца',
+        db_index = True
     )
-    flats = models.ManyToManyField(Flat, verbose_name='Квартиры в собственности', related_name='owners')
+    flats = models.ManyToManyField(
+        Flat,
+        verbose_name='Квартиры в собственности',
+        related_name='owners',
+        db_index=True
+    )
+
+    def __str__(self):
+        return self.name
 
 
 class Claim(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE,
-        verbose_name='Пользователь'
+        verbose_name='Пользователь',
+        db_index=True
     )
     flat = models.ForeignKey(
         Flat, on_delete=models.CASCADE,
-        verbose_name='Квартира, на которую пожаловались'
+        verbose_name='Квартира, на которую пожаловались',
+        db_index=True
     )
     text = models.TextField()
