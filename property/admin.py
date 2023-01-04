@@ -8,6 +8,7 @@ class OwnerInline(admin.TabularInline):
     raw_id_fields = ['owner']
 
 
+@admin.register(Flat)
 class FlatAdmin(admin.ModelAdmin):
     search_fields = ['town', 'address', 'owner']
     readonly_fields = ['created_at']
@@ -24,10 +25,12 @@ class FlatAdmin(admin.ModelAdmin):
     inlines = [OwnerInline]
 
 
+@admin.register(Claim)
 class ClaimAdmin(admin.ModelAdmin):
     raw_id_fields = ['user', 'flat']
 
 
+@admin.register(Owner)
 class OwnerAdmin(admin.ModelAdmin):
     list_display = [
         'name',
@@ -36,6 +39,3 @@ class OwnerAdmin(admin.ModelAdmin):
     raw_id_fields = ['flats']
 
 
-admin.site.register(Flat, FlatAdmin)
-admin.site.register(Claim, ClaimAdmin)
-admin.site.register(Owner, OwnerAdmin)
