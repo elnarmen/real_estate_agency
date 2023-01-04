@@ -65,12 +65,12 @@ class Owner(models.Model):
         verbose_name='ФИО владельца',
         db_index=True
     )
-    owners_phonenumber = models.CharField(
+    phonenumber = models.CharField(
         'Номер владельца',
         max_length=20,
         db_index=True
     )
-    owner_pure_phone = PhoneNumberField(
+    pure_phone = PhoneNumberField(
         region='RU',
         blank=True,
         null=True,
