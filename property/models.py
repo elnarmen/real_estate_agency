@@ -92,11 +92,13 @@ class Claim(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE,
         verbose_name='Пользователь',
+        related_name='claims',
         db_index=True
     )
     flat = models.ForeignKey(
         Flat, on_delete=models.CASCADE,
         verbose_name='Квартира, на которую пожаловались',
+        related_name='claimed_by',
         db_index=True
     )
     text = models.TextField()
