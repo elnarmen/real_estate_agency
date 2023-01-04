@@ -6,7 +6,8 @@ from django.db import migrations
 def relate_flats_with_owners(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     Owner = apps.get_model('property', 'Owner')
-    for flat in Flat.objects.all():
+    flat_objs = Flat.objects.all()
+    for flat in flat_objs:
         owner = Owner.objects.get(
             name=flat.owner,
             owners_phonenumber=flat.owners_phonenumber,

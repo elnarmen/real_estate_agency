@@ -5,12 +5,15 @@ from django.db import migrations
 
 def fill_owner_pure_phone_field(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
-        flat.owner_pure_phone = phonenumbers.parse(
-            flat.owners_phonenumber, 'RU'
+
+    flat_objs = Flat.objects.all()
+
+    for flat_obj in flat_objs:
+        flat_obj.owner_pure_phone = phonenumbers.parse(
+            flat_obj.owners_phonenumber, 'RU'
         )
-        if phonenumbers.is_valid_number(flat.owner_pure_phone):
-            flat.save()
+        if phonenumbers.is_valid_number(flat_obj.owner_pure_phone):
+            flat_obj.save()
 
 class Migration(migrations.Migration):
 
