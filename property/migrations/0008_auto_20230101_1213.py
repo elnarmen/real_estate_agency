@@ -8,7 +8,7 @@ def fill_owner_pure_phone_field(apps, schema_editor):
 
     flat_objs = Flat.objects.all()
 
-    for flat_obj in flat_objs:
+    for flat_obj in flat_objs.iterator():
         flat_obj.owner_pure_phone = phonenumbers.parse(
             flat_obj.owners_phonenumber, 'RU'
         )

@@ -7,14 +7,19 @@ def relate_flats_with_owners(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     Owner = apps.get_model('property', 'Owner')
     flat_objs = Flat.objects.all()
-    for flat in flat_objs:
-        owner = Owner.objects.get(
-            name=flat.owner,
-            owners_phonenumber=flat.owners_phonenumber,
-            owner_pure_phone=flat.owner_pure_phone
-        )
-        owner.flats.set([flat])
-        owner.save()
+    for flat in flat_objs.iterator():
+        try:
+            owner = Owner.objects.get(
+                name=flat.owner,
+                owners_phonenumber=flat.owners_phonenumber,
+                owner_pure_phone=flat.owner_pure_phone
+            )
+        except Flat.DoesNotExist:
+            pass
+        else:
+            owner.flats.set([flat])
+            owner.save()
+
 
 class Migration(migrations.Migration):
 
